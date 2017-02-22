@@ -1,0 +1,23 @@
+{
+  "name": "mini-mock",
+  "version": "0.0.1",
+  "description": "An ultra-lightweight mocking framework for Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ig-grant/mini-mock.git"
+  },
+  "keywords": [
+    "node",
+    "mock"
+  ],
+  "author": "ig-grant",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ig-grant/mini-mock/issues"
+  },
+  "homepage": "https://github.com/ig-grant/mini-mock#readme"
+}
