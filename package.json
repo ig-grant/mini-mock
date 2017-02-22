@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/ig-grant/mini-mock/issues"
   },
-  "homepage": "https://github.com/ig-grant/mini-mock#readme"
+  "homepage": "https://github.com/ig-grant/mini-mock#readme",
+  "devDependencies": {
+    "expect.js": "*",
+    "mocha": "*"
+  }
 }
