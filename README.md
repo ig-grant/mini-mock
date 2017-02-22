@@ -14,12 +14,7 @@ Asynchronous mocks (ie: functions using callbacks)
 
 ```javascript
 
-/*************
- TEST FILE
-**************/
-
 // set up mock
-
 var Mocker = require('mini-mock');
 var mocker = new Mocker();
 
@@ -43,12 +38,7 @@ Synchronous mocks (ie: immediate return)
 
 ```javascript
 
-/*************
- TEST FILE
-**************/
-
 // set up mock
-
 var Mocker = require('mini-mock');
 var mocker = new Mocker();
 
