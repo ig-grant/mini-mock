@@ -6,7 +6,10 @@ I got tired of the complexity of using mocking frameworks for JS. I wanted somet
 just what I want it to do.
 
 # General
-- Written for Javascript version: ECMAScript 6
+- For Javascript version: ECMAScript 6
+- Written using the approach of a single object under test
+- Object under test would ideally have all dependencies injected via the constructor
+- Records call count on every stubbed function
 
 # Usage
 
