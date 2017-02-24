@@ -14,11 +14,11 @@ describe('unit - robot', function() {
         var mocker = new Mocker();
 
         this.__motor = mocker.mock(Motor.prototype)
-            .withStubAsyncFunc('start', [null, 250]) // callback args are [null, 250]
+            .withAsyncStub('start', [null, 250]) // callback args are [null, 250]
             .create();
 
         this.__motorFactory = mocker.mock(MotorFactory.prototype)
-            .withStubSyncFunc('getMotor', this.__motor)
+            .withSyncStub('getMotor', this.__motor)
             .create();
 
         done();

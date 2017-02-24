@@ -26,8 +26,8 @@ var mocker = new Mocker();
 
 var foo = mocker.mock(Foo.prototype)
     // async function stubs
-    .withStubAsyncFunc('forward', null) // 1st arg: function name; 2nd arg: callback arguments (null in this case)
-    .withStubAsyncFunc('reverse', null)
+    .withAsyncStub('forward', null) // 1st arg: function name; 2nd arg: callback arguments (null in this case)
+    .withAsyncStub('reverse', null)
     .create();
 
 // object under test
@@ -50,8 +50,8 @@ var mocker = new Mocker();
 
 var foo = mocker.mock(Foo.prototype)
     // async function stubs
-    .withStubAsyncFunc('forward', [null, {key1: value1}]) // 1st arg: function name; 2nd arg: callback arguments (null error; object result)
-    .withStubAsyncFunc('reverse', [null, {key2: value2}])
+    .withAsyncStub('forward', [null, {key1: value1}]) // 1st arg: function name; 2nd arg: callback arguments (null error; object result)
+    .withAsyncStub('reverse', [null, {key2: value2}])
     .create();
 
 // object under test
@@ -74,7 +74,7 @@ var mocker = new Mocker();
 
 var bar = mocker.mock(Bar.prototype)
     // sync function stubs
-    .withStubSyncFunc('go', foo) // 1st arg: function name; 2nd arg: expected result
+    .withSyncStub('go', foo) // 1st arg: function name; 2nd arg: expected result
     .create();
 
 // object under test
