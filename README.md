@@ -14,7 +14,9 @@ just what I want it to do.
 
 ## Usage examples
 
-Asynchronous mocks (ie: functions using callbacks)
+### Asynchronous mocks (ie: functions using callbacks)
+
+#### Without callback args
 
 ```javascript
 
@@ -38,7 +40,31 @@ expect(foo.recorder['reverse'].calls).to.equal(1);
 
 ```
 
-Synchronous mocks (ie: immediate return)
+#### With callback args
+
+```javascript
+
+// set up mock
+var Mocker = require('mini-mock');
+var mocker = new Mocker();
+
+var foo = mocker.mock(Foo.prototype)
+    // async function stubs
+    .withStubAsyncFunc('forward', [null, {key1: value1}]) // 1st arg: function name; 2nd arg: callback arguments (null error; object result)
+    .withStubAsyncFunc('reverse', [null, {key2: value2}])
+    .create();
+
+// object under test
+var objTotest = new Bar(foo);
+objToTest.go();
+
+// assertions
+expect(foo.recorder['forward'].calls).to.equal(1);
+expect(foo.recorder['reverse'].calls).to.equal(1);
+
+```
+
+### Synchronous mocks (ie: immediate return)
 
 ```javascript
 
