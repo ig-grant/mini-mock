@@ -11,6 +11,7 @@ just what I want it to do.
 - Object under test should ideally use constructor injection (all dependencies injected via the constructor)
 - Records call count on every stubbed function
 - Stubs asynchronous and synchronous functions
+- After mock instances are returned via the `create()` function, Mocker resets its internal references, so it can immediately be reused
 
 ## Usage examples
 
