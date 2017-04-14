@@ -11,10 +11,13 @@ just what I want it to do.
 - Object under test should ideally use constructor injection (all dependencies injected via the constructor)
 - Records call count on every stubbed function
 - Stubs asynchronous and synchronous functions
+- After mock instances are returned via the `create()` function, Mocker resets its internal references, so it can immediately be reused
 
 ## Usage examples
 
-Asynchronous mocks (ie: functions using callbacks)
+### Asynchronous mocks (ie: functions using callbacks)
+
+#### Without callback args
 
 ```javascript
 
@@ -24,8 +27,8 @@ var mocker = new Mocker();
 
 var foo = mocker.mock(Foo.prototype)
     // async function stubs
-    .withStubAsyncFunc('forward', null) // 1st arg: function name; 2nd arg: callback arguments (null in this case)
-    .withStubAsyncFunc('reverse', null)
+    .withAsyncStub('forward', null) // 1st arg: function name; 2nd arg: callback arguments (null in this case)
+    .withAsyncStub('reverse', null)
     .create();
 
 // object under test
@@ -38,7 +41,31 @@ expect(foo.recorder['reverse'].calls).to.equal(1);
 
 ```
 
-Synchronous mocks (ie: immediate return)
+#### With callback args
+
+```javascript
+
+// set up mock
+var Mocker = require('mini-mock');
+var mocker = new Mocker();
+
+var foo = mocker.mock(Foo.prototype)
+    // async function stubs
+    .withAsyncStub('forward', [null, {key1: value1}]) // 1st arg: function name; 2nd arg: callback arguments (null error; object result)
+    .withAsyncStub('reverse', [null, {key2: value2}])
+    .create();
+
+// object under test
+var objTotest = new Bar(foo);
+objToTest.go();
+
+// assertions
+expect(foo.recorder['forward'].calls).to.equal(1);
+expect(foo.recorder['reverse'].calls).to.equal(1);
+
+```
+
+### Synchronous mocks (ie: immediate return)
 
 ```javascript
 
@@ -48,7 +75,7 @@ var mocker = new Mocker();
 
 var bar = mocker.mock(Bar.prototype)
     // sync function stubs
-    .withStubSyncFunc('go', foo) // 1st arg: function name; 2nd arg: expected result
+    .withSyncStub('go', foo) // 1st arg: function name; 2nd arg: expected result
     .create();
 
 // object under test
