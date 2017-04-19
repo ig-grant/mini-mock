@@ -1,3 +1,5 @@
+![npm](https://badge.fury.io/js/mini-mock.svg)
+
 # mini-mock
 An ultra-lightweight mocking framework for Node
 
