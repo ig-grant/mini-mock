@@ -1,4 +1,5 @@
 ![npm](https://badge.fury.io/js/mini-mock.svg)
+[![travis](https://travis-ci.org/leebow/mini-mock.svg?branch=master)](https://travis-ci.org/leebow/mini-mock)
 
 # mini-mock
 An ultra-lightweight mocking framework for Node
