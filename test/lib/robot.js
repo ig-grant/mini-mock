@@ -1,7 +1,3 @@
-/**
- * Created by grant on 2017/02/22.
- */
-
 module.exports = Robot;
 
 function Robot(motorFactory) {

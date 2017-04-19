@@ -1,7 +1,3 @@
-/**
- * Created by grant on 2017/02/22.
- */
-
 var expect = require('expect.js');
 var Robot = require('./lib/robot');
 var Motor = require('./lib/motor');
