@@ -1,6 +1,6 @@
 {
   "name": "mini-mock",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An ultra-lightweight mocking framework for Node",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ig-grant/mini-mock.git"
+    "url": "git+https://github.com/leebow/mini-mock.git"
   },
   "keywords": [
     "node",
@@ -17,9 +17,9 @@
   "author": "ig-grant",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ig-grant/mini-mock/issues"
+    "url": "https://github.com/leebow/mini-mock/issues"
   },
-  "homepage": "https://github.com/ig-grant/mini-mock#readme",
+  "homepage": "https://github.com/leebow/mini-mock#readme",
   "devDependencies": {
     "expect.js": "*",
     "mocha": "*"
