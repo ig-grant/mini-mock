@@ -5,8 +5,8 @@
 An ultra-lightweight mocking framework for Node
 
 ## Why?
-I got tired of the complexity of using mocking frameworks for JS. I wanted something really simple, that does
-just what I want it to do.
+I got tired of the unnecessary complexity of existing mocking frameworks for JS. I wanted something really simple, that does
+JUST what I want it to do.
 
 ## General
 - For Javascript version: ECMAScript 6
