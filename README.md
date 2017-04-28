@@ -18,6 +18,11 @@ JUST what I want it to do.
 
 ## Usage pattern
 
+Instantiate:
+```
+var mocker = new(require('mini-mock'))();
+```
+
 ### Asynchronous functions (ie: functions using callbacks)
 
 ```javascript
@@ -25,13 +30,19 @@ JUST what I want it to do.
 var mockedObject = mocker.mock(prototype_to_mock)
     .withAsyncStub('function_name', [expected_error, expected_result])
     .create();
-...
-// do stuff
-...
+
+/*
+    ...do stuff
+*/
+
 // access recorder
 var callCount = mockedObject.recorder['function_name'].calls;
 expect(callCount).to.equal(1);
-...
+
+/*
+    ...do stuff
+*/
+
 // check expected result
 mockedObject.function_name(function(err, result){
     expect(result).to.equal(expected_result);
@@ -45,13 +56,19 @@ mockedObject.function_name(function(err, result){
 var mockedObject = mocker.mock(prototype_to_mock)
     .withSyncStub('function_name', expected_result)
     .create();
-...
-// do stuff
-...
+
+/*
+    ...do stuff
+*/
+
 // access recorder
 var callCount = mockedObject.recorder['function_name'].calls;
 expect(callCount).to.equal(1);
-...
+
+/*
+    ...do stuff
+*/
+
 // check expected result
 expect(mockedObject.function_name()).to.equal(expected_result);
 
