@@ -16,9 +16,50 @@ JUST what I want it to do.
 - Stubs asynchronous and synchronous functions
 - After mock instances are returned via the `create()` function, Mocker resets its internal references, so it can immediately be reused
 
-## Usage examples
+## Usage pattern
 
-### Asynchronous mocks (ie: functions using callbacks)
+### Asynchronous functions (ie: functions using callbacks)
+
+```javascript
+// create mock and expectation
+var mockedObject = mocker.mock(prototype_to_mock)
+    .withAsyncStub('function_name', [expected_error, expected_result])
+    .create();
+...
+// do stuff
+...
+// access recorder
+var callCount = mockedObject.recorder['function_name'].calls;
+expect(callCount).to.equal(1);
+...
+// check expected result
+mockedObject.function_name(function(err, result){
+    expect(result).to.equal(expected_result);
+});
+
+```
+### Synchronous function
+
+```javascript
+// create mock and expectation
+var mockedObject = mocker.mock(prototype_to_mock)
+    .withSyncStub('function_name', expected_result)
+    .create();
+...
+// do stuff
+...
+// access recorder
+var callCount = mockedObject.recorder['function_name'].calls;
+expect(callCount).to.equal(1);
+...
+// check expected result
+expect(mockedObject.function_name()).to.equal(expected_result);
+
+```
+
+## Examples
+
+### Asynchronous mocks
 
 #### Without callback args
 
@@ -68,7 +109,7 @@ expect(foo.recorder['reverse'].calls).to.equal(1);
 
 ```
 
-### Synchronous mocks (ie: immediate return)
+### Synchronous mocks
 
 ```javascript
 
