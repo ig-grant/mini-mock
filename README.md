@@ -59,7 +59,6 @@ var mockedObject = mocker.mock(MyModule.prototype)
 
 // invoke
 mockedObject.myAsyncFunction1(function(err, result){
-
     var callCount = mockedObject.recorder['myAsyncFunction1'].calls;
 
     // assert
@@ -69,7 +68,6 @@ mockedObject.myAsyncFunction1(function(err, result){
 
 // invoke
 mockedObject.myAsyncFunction2(function(err, result){
-
     var callCount = mockedObject.recorder['myAsyncFunction2'].calls;
 
     // assert
@@ -78,10 +76,10 @@ mockedObject.myAsyncFunction2(function(err, result){
 });
 ```
 
-### Synchronous function
+### Synchronous mocks
 
 ```javascript
-/var mocker = new(require('mini-mock'))();
+var mocker = new(require('mini-mock'))();
 
 var mockResult = {key1: 'mocked data returned from myOtherService'};
 
@@ -92,7 +90,6 @@ var mockedObject = mocker.mock(MyModule.prototype)
 
 // invoke
 var result = mockedObject.mySyncFunction('blah');
-
 var callCount = mockedObject.recorder['mySyncFunction'].calls;
 
 // assert
