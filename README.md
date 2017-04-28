@@ -16,136 +16,88 @@ JUST what I want it to do.
 - Stubs asynchronous and synchronous functions
 - After mock instances are returned via the `create()` function, Mocker resets its internal references, so it can immediately be reused
 
-## Usage pattern
+## Usage examples
 
-Instantiate:
-```
-var mocker = new(require('mini-mock'))();
-```
-
-### Asynchronous functions (ie: functions using callbacks)
+Assuming the following prototype is to be mocked:
 
 ```javascript
-// create mock and expectation
-var mockedObject = mocker.mock(prototype_to_mock)
-    .withAsyncStub('function_name', [expected_error, expected_result])
-    .create();
 
-/*
-    ...do stuff
-*/
+module.exports = MyModule;
 
-// access recorder
-var callCount = mockedObject.recorder['function_name'].calls;
-expect(callCount).to.equal(1);
+function MyModule(){}
 
-/*
-    ...do stuff
-*/
+MyModule.prototype.myAsyncFunction1 = (callback){
+    var result = myService.doStuff();
+    callback(null, result);
+}
 
-// check expected result
-mockedObject.function_name(function(err, result){
-    expect(result).to.equal(expected_result);
-});
+MyModule.prototype.myAsyncFunction2 = (callback){
+    var result = myService.doOtherStuff();
+    callback(null, result);
+}
+
+MyModule.prototype.mySyncFunction = (arg1){
+    var result = myOtherService.doStuff(arg1);
+    return {key1: result};
+}
 
 ```
+
+### Async mocks
+
+```javascript
+var mocker = new(require('mini-mock'))();
+
+var mockResult1 = {key1: 'mocked data returned from myService'};
+var mockResult2 = 'mocked data returned from myOtherService';
+
+// create mock and expectations
+var mockedObject = mocker.mock(MyModule.prototype)
+    .withAsyncStub('myAsyncFunction1', [null, mockResult1])   // callback returns null error and mockResult1
+    .withAsyncStub('myAsyncFunction2', [null, mockResult2])   // callback returns null error and mockResult2
+    .create();
+
+// invoke
+mockedObject.myAsyncFunction1(function(err, result){
+
+    var callCount = mockedObject.recorder['myAsyncFunction1'].calls;
+
+    // assert
+    expect(callCount).to.equal(1);
+    expect(result).to.equal(mockResult1);
+});
+
+// invoke
+mockedObject.myAsyncFunction2(function(err, result){
+
+    var callCount = mockedObject.recorder['myAsyncFunction2'].calls;
+
+    // assert
+    expect(callCount).to.equal(1);
+    expect(result).to.equal(mockResult2);
+});
+```
+
 ### Synchronous function
 
 ```javascript
+/var mocker = new(require('mini-mock'))();
+
+var mockResult = {key1: 'mocked data returned from myOtherService'};
+
 // create mock and expectation
-var mockedObject = mocker.mock(prototype_to_mock)
-    .withSyncStub('function_name', expected_result)
+var mockedObject = mocker.mock(MyModule.prototype)
+    .withSyncStub('mySyncFunction', mockResult)
     .create();
 
-/*
-    ...do stuff
-*/
+// invoke
+var result = mockedObject.mySyncFunction('blah');
 
-// access recorder
-var callCount = mockedObject.recorder['function_name'].calls;
+var callCount = mockedObject.recorder['mySyncFunction'].calls;
+
+// assert
 expect(callCount).to.equal(1);
-
-/*
-    ...do stuff
-*/
-
-// check expected result
-expect(mockedObject.function_name()).to.equal(expected_result);
-
-```
-
-## Examples
-
-### Asynchronous mocks
-
-#### Without callback args
-
-```javascript
-
-// set up mock
-var Mocker = require('mini-mock');
-var mocker = new Mocker();
-
-var foo = mocker.mock(Foo.prototype)
-    // async function stubs
-    .withAsyncStub('forward', null) // 1st arg: function name; 2nd arg: callback arguments (null in this case)
-    .withAsyncStub('reverse', null)
-    .create();
-
-// object under test
-var objTotest = new Bar(foo);
-objToTest.go();
-
-// assertions
-expect(foo.recorder['forward'].calls).to.equal(1);
-expect(foo.recorder['reverse'].calls).to.equal(1);
-
-```
-
-#### With callback args
-
-```javascript
-
-// set up mock
-var Mocker = require('mini-mock');
-var mocker = new Mocker();
-
-var foo = mocker.mock(Foo.prototype)
-    // async function stubs
-    .withAsyncStub('forward', [null, {key1: value1}]) // 1st arg: function name; 2nd arg: callback arguments (null error; object result)
-    .withAsyncStub('reverse', [null, {key2: value2}])
-    .create();
-
-// object under test
-var objTotest = new Bar(foo);
-objToTest.go();
-
-// assertions
-expect(foo.recorder['forward'].calls).to.equal(1);
-expect(foo.recorder['reverse'].calls).to.equal(1);
-
-```
-
-### Synchronous mocks
-
-```javascript
-
-// set up mock
-var Mocker = require('mini-mock');
-var mocker = new Mocker();
-
-var bar = mocker.mock(Bar.prototype)
-    // sync function stubs
-    .withSyncStub('go', foo) // 1st arg: function name; 2nd arg: expected result
-    .create();
-
-// object under test
-var objTotest = new Robot(bar);
-objToTest.walk();
-
-// assertions
-expect(bar.recorder['go'].calls).to.equal(1);
-
+expect(result).to.equal(mockResult);
 ```
 
 See also the tests in `/test`
