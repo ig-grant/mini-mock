@@ -17,8 +17,16 @@ describe('unit - robot', function () {
             .withAsyncStub('start', [null, 250]) // callback args are [null, 250]
             .create();
 
+        this.__motorWithDelay = mocker.mock(Motor.prototype)
+            .withAsyncStub('start', [null, 250], 1500) // callback args are [null, 250]
+            .create();
+
         this.__motorFactory = mocker.mock(MotorFactory.prototype)
             .withSyncStub('getMotor', this.__motor)
+            .create();
+
+        this.__motorFactoryWithDelay = mocker.mock(MotorFactory.prototype)
+            .withSyncStub('getMotor', this.__motorWithDelay)
             .create();
 
         done();
@@ -33,6 +41,27 @@ describe('unit - robot', function () {
             if (e)
                 return done(e);
 
+            expect(result).to.equal(250);
+
+            done();
+        })
+    });
+
+    it('mock asynchronous function with delay returns correct result', function (done) {
+
+        var robot = new Robot(this.__motorFactoryWithDelay);
+
+        var start = Date.now();
+
+        robot.walk(function (e, result) {
+
+            if (e)
+                return done(e);
+
+            var end = Date.now();
+            var timeDiff = end - start;
+
+            expect(timeDiff).to.be.greaterThan(1000);
             expect(result).to.equal(250);
 
             done();
