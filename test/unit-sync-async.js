@@ -6,6 +6,9 @@ var expect = require('expect.js');
 var Robot = require('./lib/robot');
 var Motor = require('./lib/motor');
 var MotorFactory = require('./lib/motor-factory');
+var VoiceWidget = require('./lib/voice-widget');
+var WidgetFactory = require('./lib/widget-factory');
+
 var Mocker = require('../lib/mocker');
 
 describe('unit - robot', function () {
@@ -29,6 +32,14 @@ describe('unit - robot', function () {
             .withSyncStub('getMotor', this.__motorWithDelay)
             .create();
 
+        this.__voiceWidget = mocker.mock(VoiceWidget.prototype)
+            .withPromiseStub('speak', 'Zip zap!', null, null) // promise will resolve with 'Zip zap!'
+            .create();
+
+        this.__widgetFactory = mocker.mock(WidgetFactory.prototype)
+            .withSyncStub('getVoiceWidget', this.__voiceWidget)
+            .create();
+
         done();
     });
 
@@ -43,6 +54,16 @@ describe('unit - robot', function () {
 
             expect(result).to.equal(250);
 
+            done();
+        })
+    });
+
+    it('mock promise function returns correct result', function (done) {
+
+        var robot = new Robot(null, this.__widgetFactory);
+
+        robot.talk(function (err, result) {
+            expect(result).to.equal('Zip zap!');
             done();
         })
     });
