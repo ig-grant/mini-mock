@@ -7,6 +7,7 @@ var Robot = require('./lib/robot');
 var Motor = require('./lib/motor');
 var MotorFactory = require('./lib/motor-factory');
 var VoiceWidget = require('./lib/voice-widget');
+var VoiceWidgetClass = require('./lib/voice-widget-class');
 var WidgetFactory = require('./lib/widget-factory');
 
 var Mocker = require('../lib/mocker');
@@ -34,6 +35,10 @@ describe('unit - robot', function () {
 
         this.__voiceWidget = mocker.mock(VoiceWidget.prototype)
             .withPromiseStub('speak', 'Zip zap!', null, null) // promise will resolve with 'Zip zap!'
+            .create();
+
+        this.__voiceWidgetClass = mocker.mock(VoiceWidgetClass.prototype)
+            .withPromiseStub('speak', 'Wobble wobble!', null, null) // promise will resolve with 'Wobble wobble!'
             .create();
 
         this.__widgetFactory = mocker.mock(WidgetFactory.prototype)
@@ -66,6 +71,18 @@ describe('unit - robot', function () {
             expect(result).to.equal('Zip zap!');
             done();
         })
+    });
+
+    it('mock class promise function returns correct result', function (done) {
+
+        this.__voiceWidgetClass.speak()
+            .then((result) => {
+                expect(result).to.equal('Wobble wobble!');
+                done();
+            })
+            .catch((err)=> {
+                done(err);
+            });
     });
 
     it('mock asynchronous function with delay returns correct result', function (done) {
@@ -130,4 +147,5 @@ describe('unit - robot', function () {
             });
         })
     });
-});
+})
+;
